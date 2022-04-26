@@ -7,9 +7,17 @@ Original file is located at
     https://colab.research.google.com/drive/1GQK1pLVZ1YibGVf-W87YGNe7ibk7xvE1
 """
 
-board = ["-","-","-",
-         "-","-","-",
-         "-","-","-",]
+board = ["1","2","3",
+         "4","5","6",
+         "7","8","9",]
+
+
+game_being_played = True
+
+winner = None
+
+player_id = "X"
+
 
 def print_board():
   print(board[0] + " | " + board[1] + " | " + board[2])
@@ -18,4 +26,49 @@ def print_board():
   print("---------")
   print(board[6] + " | " + board[7] + " | " + board[8])
 
-print_board()
+
+def play_game():
+
+  
+  print_board()
+  print("")
+  while game_being_played:
+  
+    player_turn(player_id)
+
+    check_game()
+
+    change_player()
+
+
+def player_turn(player_id):
+  print("")
+  position = input("Choose position to place mark from 1-9: ")
+  position = int(position) - 1
+
+  board[position] = "X"
+  print("")
+  print_board()
+
+
+def check_game():
+  check_win()
+  check_draw()
+
+
+def check_win():
+  #check rows
+  #check columns
+  #check diagonals
+  return
+
+
+def check_draw():
+  return
+
+
+def change_player():
+  return
+
+
+play_game()
