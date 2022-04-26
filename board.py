@@ -7,9 +7,9 @@ Original file is located at
     https://colab.research.google.com/drive/1GQK1pLVZ1YibGVf-W87YGNe7ibk7xvE1
 """
 
-board = ["1","2","3",
-         "4","5","6",
-         "7","8","9",]
+board = ["-","-","-",
+         "-","-","-",
+         "-","-","-",]
 
 
 game_being_played = True
@@ -18,7 +18,7 @@ winner = None
 
 player_id = "X"
 
-
+# displays the game board
 def print_board():
   print(board[0] + " | " + board[1] + " | " + board[2])
   print("---------")
@@ -26,28 +26,53 @@ def print_board():
   print("---------")
   print(board[6] + " | " + board[7] + " | " + board[8])
 
-
+# function to play game of tic tac toe
 def play_game():
 
-  
+  # display starting board
   print_board()
-  print("")
+  
+  # while loop if game is still being played without a winner or tie
   while game_being_played:
   
+    # player who takes the current turn
     player_turn(player_id)
 
+    # check if the game has ended with a winner or tie
     check_game()
 
+
+    # change players 
     change_player()
 
+  # the game has ended
+  if winner == "X" or winner == "O":
+    print(f'{winner} wins the game')
+  elif winner == None:
+    print("Tie Game.")
 
-def player_turn(player_id):
+
+# function to control the players turns
+def player_turn(player):
   print("")
+  print(f'Player {player} turn.')
   position = input("Choose position to place mark from 1-9: ")
-  position = int(position) - 1
 
-  board[position] = "X"
-  print("")
+  valid_move = False
+  while not valid_move:
+
+    while position not in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+      position = input("Choose position to place mark from 1-9: ")  
+
+    position = int(position) - 1
+
+    if board[position] == "-":
+      valid_move = True
+    else:
+      print("Mark already in position. Choose again.")
+
+  board[position] = player
+
   print_board()
 
 
@@ -57,17 +82,96 @@ def check_game():
 
 
 def check_win():
+
+  # set a global variable in a function
+  global winner
+
   #check rows
+  row_win = check_rows()
   #check columns
+  column_win = check_columns()
   #check diagonals
+  diag_win = check_diagonals()
+  if row_win:
+    winner = row_win
+  elif column_win:
+    winner = column_win
+  elif diag_win:
+    winner = diag_win  
+  else:
+    # no winner. tie game.
+    winner = None
   return
 
+def check_rows():
+  # global variable call
+  global game_being_played
+  # check rows for winner
+  row_1 = board[0] == board[1] == board[2] != "-"
+  row_2 = board[3] == board[4] == board[5] != "-"
+  row_3 = board[6] == board[7] == board[8] != "-"
+  
+  if row_1 or row_2 or row_3:
+    game_being_played = False
+  if row_1:
+    return board[0]
+  elif row_2:
+    return board[3]
+  elif row_3:
+    return board[6]
+
+  return
+
+def check_columns():
+  # global variable call
+  global game_being_played
+  # check columns for winner
+  column_1 = board[0] == board[3] == board[6] != "-"
+  column_2 = board[1] == board[4] == board[7] != "-"
+  column_3 = board[2] == board[5] == board[8] != "-"
+  
+  if column_1 or column_2 or column_3:
+    game_being_played = False
+  if column_1:
+    return board[0]
+  elif column_2:
+    return board[1]
+  elif column_3:
+    return board[2]
+  return
+
+def check_diagonals():
+  # global variable call
+  global game_being_played
+  # check diagonals for winner
+  diagonal_1 = board[0] == board[4] == board[8] != "-"
+  diagonal_2 = board[6] == board[4] == board[2] != "-"
+  #  
+  if diagonal_1 or diagonal_2:
+    game_being_played = False
+  if diagonal_1:
+    return board[0]
+  elif diagonal_2:
+    return board[6]
+  return
 
 def check_draw():
+  # call global variable game_being_played
+  global game_being_played
+  # check if no spaces are available to play
+  if "-" not in board:
+    game_being_played = False 
   return
 
 
 def change_player():
+  # call global variable player_id to change player
+  global player_id
+  # if statement to switch player_id
+  if player_id == "X":
+    player_id = "O"
+  elif player_id == "O":
+    player_id = "X" 
   return
 
 
