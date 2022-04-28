@@ -21,9 +21,9 @@ player_id = "X"
 # displays the game board
 def print_board():
   print(board[0] + " | " + board[1] + " | " + board[2])
-  print("---------")
+  print("--+---+--")
   print(board[3] + " | " + board[4] + " | " + board[5])
-  print("---------")
+  print("--+---+--")
   print(board[6] + " | " + board[7] + " | " + board[8])
 
 # function to play game of tic tac toe
